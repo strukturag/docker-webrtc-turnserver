@@ -1,0 +1,12 @@
+/srv/turnserver/turnserver.log {
+	rotate 12
+	monthly
+	compress
+	delaycompress
+    notifempty
+    copytruncate
+    missingok
+    postrotate
+        /bin/kill -HUP `cat /var/run/turnserver.pid 2>/dev/null` 2> /dev/null || true
+    endscript
+}
