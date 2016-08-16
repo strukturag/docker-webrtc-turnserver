@@ -1,5 +1,5 @@
 # docker build -t docker-webrtc-turnserver .
-# docker run --rm --name my-turnserver-dev -i -v `pwd`/data:/srv -t docker-webrtc-turnserver
+# docker run --rm --net=host --name my-turnserver-dev -i -v `pwd`/data:/srv -t docker-webrtc-turnserver
 
 FROM phusion/baseimage:0.9.19
 MAINTAINER Simon Eisenmann <simon@struktur.de>
