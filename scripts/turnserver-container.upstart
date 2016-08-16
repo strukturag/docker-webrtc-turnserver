@@ -17,9 +17,12 @@ end script
 script
 	exec docker run \
 		--rm=true \
-		--sig-proxy=true \
 		--net=host \
 		-v=$FOLDER:/srv \
 		--name=$NAME \
 		-t spreed/turnserver:$VERSION
+end script
+
+post-stop script
+	exec docker stop $NAME || true
 end script
