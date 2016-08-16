@@ -1,0 +1,25 @@
+description "WebRTC TURNserver container"
+author "Simon Eisenmann <simon@struktur.de>"
+
+start on filesystem and started docker
+stop on stopping docker
+
+respawn
+
+env NAME=webrtc-turnserver
+env VERSION=latest
+env FOLDER=/srv/webrtc-turnserver
+
+pre-start script
+	docker rm $NAME >/dev/null 2>&1 || true
+end script
+
+script
+	exec docker run \
+		--rm=true \
+		--sig-proxy=true \
+		--net=host \
+		-v=$FOLDER:/srv \
+		--name=$NAME \
+		-t spreed/turnserver:$VERSION
+end script
