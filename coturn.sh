@@ -98,11 +98,11 @@ if [ -z "$MAX_PORT" ]; then
 fi
 
 if [ -z "$MAX_BPS" ]; then
-	MAX_BPS="3000000" # 3 Megabyte/second per TURN session
+	MAX_BPS="640000" # 5 Mbit/second per TURN session
 fi
 
 if [ -z "$BPS_CAPACITY" ]; then
-	BPS_CAPACITY="0"
+	BPS_CAPACITY="6400000" # 50 Mbit/second
 fi
 
 if [ -z "$USER_QUOTA" ]; then
