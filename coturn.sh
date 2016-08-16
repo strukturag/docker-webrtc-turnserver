@@ -48,6 +48,10 @@ if [ -n "$TLS_KEY" ]; then
 	ARGS+=" --pkey=$TLS_KEY"
 fi
 
+if [ -n "$DH_FILE" ]; then
+	ARGS+=" --dh-file=$DH_FILE"
+fi
+
 if [ -n "$RELAY_IP" ]; then
 	ARGS+=" --relay-ip=$RELAY_IP"
 fi
@@ -62,6 +66,14 @@ fi
 
 if [ -n "$NO_AUTH" ]; then
 	ARGS+=" --no-auth"
+fi
+
+if [ "$VERBOSE" = "1" ]; then
+	ARGS+=" --verbose"
+fi
+
+if [ "$DEBUG" = "1" ]; then
+	ARGS+=" --Verbose"
 fi
 
 if [ -n "$REDIS_STATSDB" ]; then
@@ -112,12 +124,14 @@ fi
 
 sleep 2
 exec /usr/bin/turnserver \
+	-n \
 	${ARGS[@]} \
 	--no-cli \
 	--log-file=$LOG_FILE \
 	--no-stdout-log \
 	--simple-log \
 	--fingerprint \
+	--dh2066 \
 	--realm=$REALM \
 	--stale-nonce \
 	--check-origin-consistency \
