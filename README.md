@@ -34,7 +34,7 @@ There are many more configuration settings. See `data/config.example` for a full
 ## Run TURN server Docker image
 
 ```
-docker run --rm --net=host --name my-spreed-turnserver -i -v `pwd`/data:/srv -t spreed-turnserver
+docker run --rm --net=host --name my-webrtc-turnserver -i -v `pwd`/data:/srv -t docker-webrtc-turnserver
 ```
 
 This runs the container with the settings as defined in the `config` file which is  made available to the container using the volume (-v) option. This volume is also used as storage for persistent data created by the TURN server.
