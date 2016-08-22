@@ -1,0 +1,21 @@
+[Unit]
+Description=WebRTC TURNserver container
+After=docker.service
+Requires=docker.service
+
+[Service]
+Environment=NAME=webrtc-turnserver
+Environment=VERSION=latest
+Environment=FOLDER=/srv/webrtc-turnserver
+Restart=always
+ExecStartPre=-/usr/bin/docker rm ${NAME}
+ExecStart=/usr/bin/docker run \
+	--rm=true \
+	--net=host \
+	-v=${FOLDER}:/srv \
+	--name=${NAME} \
+	-t spreed/turnserver:${VERSION}
+ExecStop=-/usr/bin/docker stop ${NAME}
+
+[Install]
+WantedBy=default.target
