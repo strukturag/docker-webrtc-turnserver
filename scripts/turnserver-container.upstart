@@ -20,7 +20,7 @@ script
 		--net=host \
 		-v=$FOLDER:/srv \
 		--name=$NAME \
-		-t spreed/turnserver:$VERSION
+		-t monogramm/docker-coturn:$VERSION
 end script
 
 post-stop script
