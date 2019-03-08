@@ -1,10 +1,21 @@
+
+[uri_license]: http://www.gnu.org/licenses/agpl.html
+[uri_license_image]: https://img.shields.io/badge/License-AGPL%20v3-blue.svg
+
+[![License: AGPL v3][uri_license_image]][uri_license]
+[![Build Status](https://travis-ci.org/Monogramm/docker-coturn.svg)](https://travis-ci.org/Monogramm/docker-coturn)
+[![Docker Automated buid](https://img.shields.io/docker/build/monogramm/docker-coturn.svg)](https://hub.docker.com/r/monogramm/docker-coturn/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/monogramm/docker-coturn.svg)](https://hub.docker.com/r/monogramm/docker-coturn/)
+
 # Docker image for Coturn suitable for WebRTC
 
-This Docker repository provides the [Coturn](https://github.com/coturn/coturn) TURN server with a configuration suitable to use with [Spreed WebRTC](https://github.com/strukturag/spreed-webrtc).
+This Docker repository provides the [Coturn](https://github.com/coturn/coturn) TURN server with a configuration suitable to use with [Spreed WebRTC](https://github.com/strukturag/spreed-webrtc) or [NextCloud Talk](https://github.com/nextcloud/spreed).
+
+This fork aims to to provide a lightweight image based on the original [strukturag/docker-webrtc-turnserver](https://github.com/strukturag/docker-webrtc-turnserver) but with an alpine base image like [instrumentisto/coturn-docker-image](https://github.com/instrumentisto/coturn-docker-image).
 
 ## Build Docker image
 
-Install Docker and then run `docker build -t docker-webrtc-turnserver .` to build the image.
+Install Docker and then run `docker build -t docker-coturn .` to build the image.
 
 ## TURN server configuration for WebRTC
 
@@ -34,7 +45,7 @@ There are many more configuration settings. See `data/config.example` for a full
 ## Run TURN server Docker image
 
 ```
-docker run --rm --net=host --name my-webrtc-turnserver -i -v `pwd`/data:/srv -t docker-webrtc-turnserver
+docker run --rm --net=host --name my-webrtc-turnserver -i -v `pwd`/data:/srv -t docker-coturn
 ```
 
 This runs the container with the settings as defined in the `config` file which is  made available to the container using the volume (-v) option. This volume is also used as storage for persistent data created by the TURN server.
