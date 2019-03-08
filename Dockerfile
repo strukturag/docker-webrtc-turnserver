@@ -42,8 +42,14 @@ ENV COTURN_VERSION=4.5.1.1 \
 	USER_DB="/srv/turnserver/turndb" \
 	LOG_FILE="syslog"
 
+
+# Add coturn 
+COPY docker-entrypoint.sh /
+
 # Build and install Coturn
-RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' \
+RUN set -ex; \
+	chmod 755 /entrypoint.sh; \
+	echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' \
     # TODO: remove after mongo-c-driver moves to main/community from testing
           >> /etc/apk/repositories \
 	&& apk update \
@@ -101,10 +107,6 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' \
 	&& apk del .tool-deps .build-deps \
 	&& rm -rf /var/cache/apk/* \
 			/tmp/*	
-
-
-# Add coturn 
-ADD docker-entrypoint.sh /
 
 # Allow volume.
 VOLUME = /srv
