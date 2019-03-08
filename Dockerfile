@@ -44,7 +44,7 @@ ENV COTURN_VERSION=4.5.1.1 \
 
 
 # Add coturn 
-COPY docker-entrypoint.sh /
+COPY docker-entrypoint.sh /entrypoint.sh
 
 # Build and install Coturn
 RUN set -ex; \
@@ -112,4 +112,4 @@ RUN set -ex; \
 VOLUME = /srv
 
 WORKDIR /
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
