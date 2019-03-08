@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-ARGS=()
+ARGS=""
 
 echo "Initiliazing Coturn server directories..."
 
@@ -32,57 +32,57 @@ if [ -z "$ALT_TLS_LISTENING_PORT" ]; then
 fi
 
 for ip in $LISTEN_IPS; do
-	ARGS+=" -L $ip"
+	ARGS="$ARGS -L $ip"
 done
 
 for ip in $EXTERNAL_IPS; do
-	ARGS+=" -X $ip"
+	ARGS="$ARGS -X $ip"
 done
 
-ARGS+=" --listening-port=$LISTENING_PORT"
-ARGS+=" --tls-listening-port=$TLS_LISTENING_PORT"
-ARGS+=" --alt-listening-port=$ALT_LISTENING_PORT"
-ARGS+=" --alt-tls-listening-port=$ALT_TLS_LISTENING_PORT"
+ARGS="$ARGS --listening-port=$LISTENING_PORT"
+ARGS="$ARGS --tls-listening-port=$TLS_LISTENING_PORT"
+ARGS="$ARGS --alt-listening-port=$ALT_LISTENING_PORT"
+ARGS="$ARGS --alt-tls-listening-port=$ALT_TLS_LISTENING_PORT"
 
 if [ -n "$TLS_CERT" ]; then
-	ARGS+=" --cert=$TLS_CERT"
+	ARGS="$ARGS --cert=$TLS_CERT"
 fi
 
 if [ -n "$TLS_KEY" ]; then
-	ARGS+=" --pkey=$TLS_KEY"
+	ARGS="$ARGS --pkey=$TLS_KEY"
 fi
 
 if [ -n "$DH_FILE" ]; then
-	ARGS+=" --dh-file=$DH_FILE"
+	ARGS="$ARGS --dh-file=$DH_FILE"
 fi
 
 if [ -n "$RELAY_IP" ]; then
-	ARGS+=" --relay-ip=$RELAY_IP"
+	ARGS="$ARGS --relay-ip=$RELAY_IP"
 fi
 
 if [ -n "$STATIC_AUTH_SECRET" ]; then
-	ARGS+=" --lt-cred-mech --use-auth-secret --static-auth-secret=$STATIC_AUTH_SECRET"
+	ARGS="$ARGS --lt-cred-mech --use-auth-secret --static-auth-secret=$STATIC_AUTH_SECRET"
 fi
 
 if [ -n "$RELAY_THREADS" ]; then
-	ARGS+=" --relay-threads=$RELAY_THREADS"
+	ARGS="$ARGS --relay-threads=$RELAY_THREADS"
 fi
 
 if [ -n "$NO_AUTH" ]; then
-	ARGS+=" --no-auth"
+	ARGS="$ARGS --no-auth"
 fi
 
 if [ "$VERBOSE" = "1" ]; then
-	ARGS+=" --verbose"
+	ARGS="$ARGS --verbose"
 fi
 
 if [ "$DEBUG" = "1" ]; then
-	ARGS+=" --Verbose"
+	ARGS="$ARGS --Verbose"
 fi
 
 if [ -n "$REDIS_STATSDB" ]; then
 	# Use like REDIS_STATSDB=mydb password=secret, and link with redis container, named redis.
-	ARGS+=" --redis-statsdb=host=$REDIS_PORT_6379_TCP_ADDR dbname=$REDIS_STATSDB port=$REDIS_PORT_6379_TCP_PORT connect_timeout=30"
+	ARGS="$ARGS --redis-statsdb=host=$REDIS_PORT_6379_TCP_ADDR dbname=$REDIS_STATSDB port=$REDIS_PORT_6379_TCP_PORT connect_timeout=30"
 fi
 
 if [ -z "$CIPHER_LIST" ]; then
@@ -93,7 +93,7 @@ if [ -z "$REALM" ]; then
 	REALM="localdomain"
 fi
 
-if [ -z "$MIN_PORT"]; then
+if [ -z "$MIN_PORT" ]; then
 	MIN_PORT="49152"
 fi
 
@@ -131,7 +131,8 @@ sleep 2
 echo "Starting Coturn server..."
 exec turnserver \
 	-n \
-	${ARGS[@]} \
+	$ARGS \
+	--prod \
 	--no-cli \
 	--log-file=$LOG_FILE \
 	--no-stdout-log \
@@ -141,7 +142,6 @@ exec turnserver \
 	--realm=$REALM \
 	--stale-nonce \
 	--check-origin-consistency \
-	--no-loopback-peers \
 	--no-multicast-peers \
 	--min-port=$MIN_PORT \
 	--max-port=$MAX_PORT \
