@@ -1,18 +1,22 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
 ARGS=()
 
+echo "Initiliazing Coturn server directories..."
+
 mkdir -p /srv/turnserver
 chown root.root /srv/turnserver
 chmod 755 /srv/turnserver
+
+echo "Initiliazing Coturn server properties..."
 
 if [ -e "/srv/config" ]; then
 	. /srv/config
 fi
 
 if [ -z "$LISTENING_PORT" ]; then
-    LISTENING_PORT="3478"
+	LISTENING_PORT="3478"
 fi
 
 if [ -z "$TLS_LISTENING_PORT" ]; then
@@ -123,7 +127,9 @@ fi
 
 
 sleep 2
-exec /usr/bin/turnserver \
+
+echo "Starting Coturn server..."
+exec turnserver \
 	-n \
 	${ARGS[@]} \
 	--no-cli \
