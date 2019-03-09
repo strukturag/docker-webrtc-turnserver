@@ -5,7 +5,8 @@ ARGS=""
 
 echo "Initiliazing Coturn server directories..."
 
-mkdir -p /srv/turnserver
+mkdir -p /srv/turnserver/db/
+mkdir -p /srv/turnserver/logs/
 chown root.root /srv/turnserver
 chmod 755 /srv/turnserver
 
@@ -45,74 +46,97 @@ ARGS="$ARGS --alt-listening-port=$ALT_LISTENING_PORT"
 ARGS="$ARGS --alt-tls-listening-port=$ALT_TLS_LISTENING_PORT"
 
 if [ -n "$TLS_CERT" ]; then
+	echo "    - setting certificate file: $TLS_CERT"
 	ARGS="$ARGS --cert=$TLS_CERT"
 fi
 
 if [ -n "$TLS_KEY" ]; then
+	echo "    - setting private key file: $TLS_KEY"
 	ARGS="$ARGS --pkey=$TLS_KEY"
 fi
 
 if [ -n "$WEB_ADMIN" ]; then
+	echo "    - enabling web admin..."
 	ARGS="$ARGS --web-admin"
 fi
 
 if [ -n "$WEB_ADMIN_IP" ]; then
+	echo "    - setting web admin local system IP address: $WEB_ADMIN_IP"
 	ARGS="$ARGS --web-admin-ip=$WEB_ADMIN_IP"
 fi
 
 if [ -n "$WEB_ADMIN_PORT" ]; then
+	echo "    - setting web admin server port: $WEB_ADMIN_PORT"
 	ARGS="$ARGS --web-admin-port=$WEB_ADMIN_PORT"
 fi
 
 if [ -n "$DH_FILE" ]; then
+	echo "    - setting DH TLS key: $DH_FILE"
 	ARGS="$ARGS --dh-file=$DH_FILE"
 fi
 
 if [ -n "$RELAY_IP" ]; then
+	echo "    - setting relay IP: $RELAY_IP"
 	ARGS="$ARGS --relay-ip=$RELAY_IP"
 fi
 
+if [ -n "$LONG_TERM_CREDENTIALS" ]; then
+	echo "    - enabling long term credentials..."
+	ARGS="$ARGS --lt-cred-mech"
+fi
+
 if [ -n "$STATIC_AUTH_SECRET" ]; then
-	ARGS="$ARGS --lt-cred-mech --use-auth-secret --static-auth-secret=$STATIC_AUTH_SECRET"
+	echo "    - setting auth secret..."
+	ARGS="$ARGS --use-auth-secret --static-auth-secret=$STATIC_AUTH_SECRET"
 fi
 
 if [ -n "$SECURE_STUN" ]; then
+	echo "    - enabling authentication of the STUN Binding request..."
 	ARGS="$ARGS --secure-stun"
 fi
 
 if [ -n "$CLI_PASSWORD" ]; then
+	echo "    - setting CLI password..."
 	ARGS="$ARGS --cli-password=$(turnadmin -P -p $CLI_PASSWORD)"
 fi
 
 if [ -n "$RELAY_THREADS" ]; then
+	echo "    - setting relay threads number: $RELAY_THREADS"
 	ARGS="$ARGS --relay-threads=$RELAY_THREADS"
 fi
 
 if [ -n "$NO_AUTH" ]; then
+	echo "    - disabling credential mechanism..."
 	ARGS="$ARGS --no-auth"
 fi
 
 if [ -n "$PROD" ]; then
+	echo "    - enabling production mode (hide the software version)..."
 	ARGS="$ARGS --prod"
 fi
 
 if [ -n "$NO_STDOUT_LOG" ]; then
+	echo "    - disabling stdout log messages..."
 	ARGS="$ARGS --no-stdout-log"
 fi
 
 if [ -n "$SYSLOG" ]; then
+	echo "    - enabling output all log information into the system log (syslog)..."
 	ARGS="$ARGS --syslog"
 fi
 
 if [ -n "$SIMPLE_LOG" ]; then
+	echo "    - enabling simple log file (no rolling out log file, simple file name)..."
 	ARGS="$ARGS --simple-log"
 fi
 
 if [ "$VERBOSE" = "1" ]; then
+	echo "    - enabling 'Moderate' verbose mode..."
 	ARGS="$ARGS --verbose"
 fi
 
 if [ "$DEBUG" = "1" ]; then
+	echo "    - enabling extra verbose mode (for debug purposes only)..."
 	ARGS="$ARGS --Verbose"
 fi
 
