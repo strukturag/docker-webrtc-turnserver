@@ -52,6 +52,18 @@ if [ -n "$TLS_KEY" ]; then
 	ARGS="$ARGS --pkey=$TLS_KEY"
 fi
 
+if [ -n "$WEB_ADMIN" ]; then
+	ARGS="$ARGS --web-admin"
+fi
+
+if [ -n "$WEB_ADMIN_IP" ]; then
+	ARGS="$ARGS --web-admin-ip=$WEB_ADMIN_IP"
+fi
+
+if [ -n "$WEB_ADMIN_PORT" ]; then
+	ARGS="$ARGS --web-admin-port=$WEB_ADMIN_PORT"
+fi
+
 if [ -n "$DH_FILE" ]; then
 	ARGS="$ARGS --dh-file=$DH_FILE"
 fi
@@ -64,12 +76,36 @@ if [ -n "$STATIC_AUTH_SECRET" ]; then
 	ARGS="$ARGS --lt-cred-mech --use-auth-secret --static-auth-secret=$STATIC_AUTH_SECRET"
 fi
 
+if [ -n "$SECURE_STUN" ]; then
+	ARGS="$ARGS --secure-stun"
+fi
+
+if [ -n "$CLI_PASSWORD" ]; then
+	ARGS="$ARGS --cli-password=$(turnadmin -P -p $CLI_PASSWORD)"
+fi
+
 if [ -n "$RELAY_THREADS" ]; then
 	ARGS="$ARGS --relay-threads=$RELAY_THREADS"
 fi
 
 if [ -n "$NO_AUTH" ]; then
 	ARGS="$ARGS --no-auth"
+fi
+
+if [ -n "$PROD" ]; then
+	ARGS="$ARGS --prod"
+fi
+
+if [ -n "$NO_STDOUT_LOG" ]; then
+	ARGS="$ARGS --no-stdout-log"
+fi
+
+if [ -n "$SYSLOG" ]; then
+	ARGS="$ARGS --syslog"
+fi
+
+if [ -n "$SIMPLE_LOG" ]; then
+	ARGS="$ARGS --simple-log"
 fi
 
 if [ "$VERBOSE" = "1" ]; then
@@ -118,13 +154,12 @@ if [ -z "$TOTAL_QUOTA" ]; then
 fi
 
 if [ -z "$USER_DB" ]; then
-	USER_DB="/srv/turnserver/turndb"
+	USER_DB="/srv/turnserver/db/turndb.sqlite"
 fi
 
 if [ -z "$LOG_FILE" ]; then
-	LOG_FILE="syslog"
+	LOG_FILE="/srv/turnserver/logs/turn.log"
 fi
-
 
 sleep 2
 
@@ -132,11 +167,8 @@ echo "Starting Coturn server..."
 exec turnserver \
 	-n \
 	$ARGS \
-	--prod \
 	--no-cli \
 	--log-file=$LOG_FILE \
-	--no-stdout-log \
-	--simple-log \
 	--fingerprint \
 	--dh2066 \
 	--realm=$REALM \

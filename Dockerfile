@@ -39,8 +39,8 @@ ENV COTURN_VERSION=4.5.1.1 \
 	BPS_CAPACITY="6400000" \
 	USER_QUOTA=100 \
 	TOTAL_QUOTA=300 \
-	USER_DB="/srv/turnserver/turndb" \
-	LOG_FILE="syslog"
+	USER_DB="/srv/turnserver/db/turndb.sqlite" \
+	LOG_FILE="/srv/turnserver/logs/turn.log"
 
 
 # Add coturn

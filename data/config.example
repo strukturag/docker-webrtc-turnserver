@@ -5,15 +5,19 @@ ALT_TLS_LISTENING_PORT=3478
 
 LISTEN_IPS="##FIRST_IP## ##SECOND_IP##"
 
-TLS_CERT=/srv/turnserver.crt
-TLS_KEY=/srv/turnserver.key
-
 RELAY_IP=##FIRST_IP##
 
 STATIC_AUTH_SECRET=##SECRET##
 
+TLS_CERT=/srv/turnserver.crt
+TLS_KEY=/srv/turnserver.key
+
+WEB_ADMIN=1
+
 REALM=myturnserver
 
-VERBOSE=1
-LOG_FILE=/srv/turnserver.log
+VERBOSE=0
+DEBUG=0
+PROD=1
+LOG_FILE=/srv/turnserver/logs/turn.log
 
