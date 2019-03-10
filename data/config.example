@@ -9,8 +9,8 @@ RELAY_IP=##FIRST_IP##
 
 STATIC_AUTH_SECRET=##SECRET##
 
-TLS_CERT=/srv/turnserver.crt
-TLS_KEY=/srv/turnserver.key
+TLS_CERT=/srv/cert.pem
+TLS_KEY=/srv/pkey.pem
 
 WEB_ADMIN=1
 
@@ -19,5 +19,10 @@ REALM=myturnserver
 VERBOSE=0
 DEBUG=0
 PROD=1
+
+NO_CLI=1
+
+USER_DB=/srv/turnserver/db/turndb.sqlite
 LOG_FILE=/srv/turnserver/logs/turn.log
+PID_FILE=/srv/turnserver/turn.pid
 

@@ -14,10 +14,11 @@
 # Afterwards run the container like this:
 #
 #   ```
-#   docker run --rm --net=host --name my-spreed-turnserver -i -v `pwd`/data:/srv -t spreed-turnserver
+#   docker run --rm --net=host --name my-spreed-turnserver -i -v `pwd`/data:/srv -t monogramm/docker-coturn
 #   ```
 #
-# This runs the container with the settings as defined in the config file which is # made available to the container using the volume (-v) option. This volume is also
+# This runs the container with the settings as defined in the config file which is
+# made available to the container using the volume (-v) option. This volume is also
 # used as storage for persistent data created by the TURN server.
 
 # https://hub.docker.com/_/alpine
@@ -31,16 +32,19 @@ ENV COTURN_VERSION=4.5.1.1 \
 	TLS_LISTENING_PORT="5349" \
 	ALT_LISTENING_PORT="3479" \
 	ALT_TLS_LISTENING_PORT="5350" \
-	CIPHER_LIST="ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AES:RSA+3DES:!ADH:!AECDH:!MD5" \
 	REALM="localdomain" \
 	MIN_PORT="49152" \
 	MAX_PORT="65535" \
+	# 5 Mbit/second per TURN session
 	MAX_BPS="640000" \
+	# 50 Mbit/second
 	BPS_CAPACITY="6400000" \
+	CIPHER_LIST="ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AES:RSA+3DES:!ADH:!AECDH:!MD5" \
 	USER_QUOTA=100 \
 	TOTAL_QUOTA=300 \
 	USER_DB="/srv/turnserver/db/turndb.sqlite" \
-	LOG_FILE="/srv/turnserver/logs/turn.log"
+	LOG_FILE="/srv/turnserver/logs/turn.log" \
+	PID_FILE="/srv/turnserver/turn.pid"
 
 
 # Add coturn
