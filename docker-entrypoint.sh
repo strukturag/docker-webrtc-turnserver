@@ -71,12 +71,12 @@ if [ -n "$NO_CLI" ]; then
 fi
 
 if [ -n "$CLI_IP" ]; then
-	echo "    - setting local system IP address to be used for CLI server endpoint: $CLI_ADMIN_IP"
+	echo "    - setting local system IP address to be used for CLI server endpoint: $CLI_IP"
 	ARGS="$ARGS --cli-ip=$CLI_IP"
 fi
 
 if [ -n "$CLI_PORT" ]; then
-	echo "    - setting CLI server port: $CLI_ADMIN_PORT"
+	echo "    - setting CLI server port: $CLI_PORT"
 	ARGS="$ARGS --cli-port=$CLI_PORT"
 fi
 
