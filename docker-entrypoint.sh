@@ -16,15 +16,19 @@ if [ -e "/srv/config" ]; then
 	. /srv/config
 fi
 
-echo "    - setting listener IP address of relay server: $LISTEN_IPS"
-for ip in $LISTEN_IPS; do
-	ARGS="$ARGS -L $ip"
-done
+if [ -n "$LISTEN_IPS" ]; then
+	echo "    - setting listener IP address of relay server: $LISTEN_IPS"
+	for ip in $LISTEN_IPS; do
+		ARGS="$ARGS -L $ip"
+	done
+fi
 
-echo "    - setting TURN Server public/private address mapping: $EXTERNAL_IPS"
-for ip in $EXTERNAL_IPS; do
-	ARGS="$ARGS -X $ip"
-done
+if [ -n "$EXTERNAL_IPS" ]; then
+	echo "    - setting TURN Server public/private address mapping: $EXTERNAL_IPS"
+	for ip in $EXTERNAL_IPS; do
+		ARGS="$ARGS -X $ip"
+	done
+fi
 
 if [ -n "$TLS_CERT" ]; then
 	echo "    - setting certificate file: $TLS_CERT"
@@ -34,6 +38,51 @@ fi
 if [ -n "$TLS_KEY" ]; then
 	echo "    - setting private key file: $TLS_KEY"
 	ARGS="$ARGS --pkey=$TLS_KEY"
+fi
+
+if [ -n "$DH_FILE" ]; then
+	echo "    - setting DH TLS key: $DH_FILE"
+	ARGS="$ARGS --dh-file=$DH_FILE"
+fi
+
+if [ -n "$RELAY_IP" ]; then
+	echo "    - setting relay IP: $RELAY_IP"
+	ARGS="$ARGS --relay-ip=$RELAY_IP"
+fi
+
+if [ -n "$LONG_TERM_CREDENTIALS" ]; then
+	echo "    - enabling long term credentials (needed for WebRTC usage)..."
+	ARGS="$ARGS --lt-cred-mech"
+fi
+
+if [ -n "$STATIC_AUTH_SECRET" ]; then
+	echo "    - setting auth secret (WebRTC authorization option to support 'TURN Server REST API')..."
+	ARGS="$ARGS --use-auth-secret --static-auth-secret=$STATIC_AUTH_SECRET"
+fi
+
+if [ -n "$SECURE_STUN" ]; then
+	echo "    - enabling authentication of the STUN Binding request..."
+	ARGS="$ARGS --secure-stun"
+fi
+
+if [ -n "$NO_CLI" ]; then
+	echo "    - disabling CLI..."
+	ARGS="$ARGS --no-cli"
+fi
+
+if [ -n "$CLI_IP" ]; then
+	echo "    - setting local system IP address to be used for CLI server endpoint: $CLI_ADMIN_IP"
+	ARGS="$ARGS --cli-ip=$CLI_IP"
+fi
+
+if [ -n "$CLI_PORT" ]; then
+	echo "    - setting CLI server port: $CLI_ADMIN_PORT"
+	ARGS="$ARGS --cli-port=$CLI_PORT"
+fi
+
+if [ -n "$CLI_PASSWORD" ]; then
+	echo "    - setting CLI password..."
+	ARGS="$ARGS --cli-password=$(turnadmin -P -p $CLI_PASSWORD | sed -e 's|\\$|\\\\$|g')"
 fi
 
 if [ -n "$WEB_ADMIN" ]; then
@@ -63,41 +112,6 @@ if [ -n "$WEB_ADMIN_PASSWORD" ]; then
 	else
 		echo "    - Web Admin user '$WEB_ADMIN_USERNAME' already set"
 	fi
-fi
-
-if [ -n "$DH_FILE" ]; then
-	echo "    - setting DH TLS key: $DH_FILE"
-	ARGS="$ARGS --dh-file=$DH_FILE"
-fi
-
-if [ -n "$RELAY_IP" ]; then
-	echo "    - setting relay IP: $RELAY_IP"
-	ARGS="$ARGS --relay-ip=$RELAY_IP"
-fi
-
-if [ -n "$LONG_TERM_CREDENTIALS" ]; then
-	echo "    - enabling long term credentials..."
-	ARGS="$ARGS --lt-cred-mech"
-fi
-
-if [ -n "$STATIC_AUTH_SECRET" ]; then
-	echo "    - setting auth secret..."
-	ARGS="$ARGS --use-auth-secret --static-auth-secret=$STATIC_AUTH_SECRET"
-fi
-
-if [ -n "$SECURE_STUN" ]; then
-	echo "    - enabling authentication of the STUN Binding request..."
-	ARGS="$ARGS --secure-stun"
-fi
-
-if [ -n "$NO_CLI" ]; then
-	echo "    - disabling CLI..."
-	ARGS="$ARGS --no-cli"
-fi
-
-if [ -n "$CLI_PASSWORD" ]; then
-	echo "    - setting CLI password..."
-	ARGS="$ARGS --cli-password=$(turnadmin -P -p $CLI_PASSWORD | sed -e 's|\\$|\\\\$|g')"
 fi
 
 if [ -n "$RELAY_THREADS" ]; then
