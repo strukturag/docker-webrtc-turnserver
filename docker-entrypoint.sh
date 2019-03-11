@@ -56,7 +56,7 @@ if [ -n "$LONG_TERM_CREDENTIALS" ]; then
 fi
 
 if [ -n "$STATIC_AUTH_SECRET" ]; then
-	echo "    - setting auth secret (WebRTC authorization option to support 'TURN Server REST API')..."
+	echo "    - setting auth secret (needed for TURN Server REST API)..."
 	ARGS="$ARGS --use-auth-secret --static-auth-secret=$STATIC_AUTH_SECRET"
 fi
 
