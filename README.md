@@ -6,6 +6,8 @@
 [![Build Status](https://travis-ci.org/Monogramm/docker-coturn.svg)](https://travis-ci.org/Monogramm/docker-coturn)
 [![Docker Automated buid](https://img.shields.io/docker/cloud/build/monogramm/docker-coturn.svg)](https://hub.docker.com/r/monogramm/docker-coturn/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/monogramm/docker-coturn.svg)](https://hub.docker.com/r/monogramm/docker-coturn/)
+[![](https://images.microbadger.com/badges/version/monogramm/docker-coturn.svg)](https://microbadger.com/images/monogramm/docker-coturn)
+[![](https://images.microbadger.com/badges/image/monogramm/docker-coturn.svg)](https://microbadger.com/images/monogramm/docker-coturn)
 
 # Docker image for Coturn suitable for WebRTC
 
