@@ -46,7 +46,7 @@ RUN sed -i 's/su root syslog/su root adm/g' /etc/logrotate.conf
 RUN rm -rf /etc/service/sshd && rm -f /etc/my_init.d/00_regen_ssh_host_keys.sh
 
 # Allow volume.
-VOLUME = /srv
+VOLUME /srv
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
