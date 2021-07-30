@@ -20,7 +20,7 @@
 # This runs the container with the settings as defined in the config file which is # made available to the container using the volume (-v) option. This volume is also
 # used as storage for persistent data created by the TURN server.
 
-FROM phusion/baseimage:0.9.19
+FROM phusion/baseimage:0.11
 MAINTAINER Simon Eisenmann <simon@struktur.de>
 
 # Set locale.
